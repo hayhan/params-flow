@@ -23,7 +23,7 @@ class Normalization(pf.Layer):
         return mask
 
 
-class LayerNormalization(Normalization):
+class LayerNormalization2(Normalization):
     """
     Layer normalization layer from arXiv:1607.06450.
         See: [Layer Normalization](https://arxiv.org/pdf/1607.06450.pdf)
@@ -41,12 +41,14 @@ class LayerNormalization(Normalization):
 
     # noinspection PyAttributeOutsideInit
     def build(self, input_shape):
-        self.input_spec = tf.keras.layers.InputSpec(shape=input_shape)
+        #input_spec_shape = input_shape
+        input_spec_shape = None
+        self.input_spec = tf.keras.layers.InputSpec(shape=input_spec_shape)
         self.gamma = self.add_weight(name="gamma", shape=input_shape[-1:],
                                      initializer=tf.keras.initializers.Ones(), trainable=True)
         self.beta  = self.add_weight(name="beta", shape=input_shape[-1:],
                                      initializer=tf.keras.initializers.Zeros(), trainable=True)
-        super(LayerNormalization, self).build(input_shape)
+        super(LayerNormalization2, self).build(input_shape)
 
     def call(self, inputs, **kwargs):                               # pragma: no cover
         x = inputs

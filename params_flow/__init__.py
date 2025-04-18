@@ -8,7 +8,7 @@ from .version import __version__
 
 from .layer import Layer
 from .model import Model
-from .normalization import LayerNormalization
+from .normalization import LayerNormalization2
 from .activations import gelu, gelu_exact, get_activation
 from .initializers import get_initializer
 

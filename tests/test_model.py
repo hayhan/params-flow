@@ -9,7 +9,7 @@ import unittest
 
 import tensorflow as tf
 import params_flow as pf
-from params_flow import Layer, Model, LayerNormalization
+from params_flow import Layer, Model, LayerNormalization2
 
 
 class CustomLayer(Layer):
@@ -48,7 +48,7 @@ class CustomModel(Model):
     def _construct(self):
         super()._construct()
         self.layer = CustomLayer.from_params(self.params)
-        self.norm  = LayerNormalization()
+        self.norm  = LayerNormalization2()
         self.supports_masking = True
 
     def call(self, inputs, training=None, mask=None):
@@ -69,7 +69,7 @@ class ModelTest(unittest.TestCase):
 
     def test_seq_model(self):
         model = tf.keras.Sequential([CustomLayer(num_units=17),
-                                     LayerNormalization()])
+                                     LayerNormalization2()])
         model.compute_output_shape(input_shape=(16, 3, 4))
         # model.build(input_shape=(16, 3, 4))
         model.compile(optimizer='adam', loss='mse')

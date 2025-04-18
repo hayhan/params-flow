@@ -12,14 +12,14 @@ import os
 import numpy as np
 from tensorflow import keras
 
-from params_flow import LayerNormalization
+from params_flow import LayerNormalization2
 
 
 class TestLayerNormalization(unittest.TestCase):
 
     def test_simple(self):
 
-        norm_layer = LayerNormalization()
+        norm_layer = LayerNormalization2()
         model = keras.Sequential([keras.layers.InputLayer(input_shape=(2,3)),
                                   norm_layer])
 
@@ -42,7 +42,7 @@ class TestLayerNormalization(unittest.TestCase):
         self.assertTrue(np.allclose(predict, expected, atol=1e-4))
 
     def test_equal(self):
-        norm_layer = LayerNormalization()
+        norm_layer = LayerNormalization2()
         model = keras.Sequential([keras.layers.InputLayer(input_shape=(16, 256)),
                                   norm_layer])
 
@@ -60,7 +60,7 @@ class TestLayerNormalization(unittest.TestCase):
 
     def test_serialization(self):
         model = keras.Sequential([
-            LayerNormalization(input_shape=(2, 3))
+            LayerNormalization2(input_shape=(2, 3))
         ])
         model.compile(optimizer='adam', loss='mse')
         model.summary()
@@ -69,13 +69,13 @@ class TestLayerNormalization(unittest.TestCase):
             temp_file = os.path.join(temp_dir, "model")
             model.save(temp_file)
             model = keras.models.load_model(temp_file, custom_objects={
-                "LayerNormalization": LayerNormalization
+                "LayerNormalization": LayerNormalization2
             })
             model.summary()
 
         encoded = model.to_json()
         model = keras.models.model_from_json(encoded, custom_objects={
-            "LayerNormalization": LayerNormalization
+            "LayerNormalization": LayerNormalization2
         })
         model.summary()
 
